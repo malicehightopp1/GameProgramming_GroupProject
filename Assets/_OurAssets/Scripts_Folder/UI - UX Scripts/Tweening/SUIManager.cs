@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SUIManager : MonoBehaviour
@@ -11,8 +12,8 @@ public class SUIManager : MonoBehaviour
     [SerializeField] private Button mStartButton;
 
     //[SerializeField] private GameObject mMainCanvas;
-    [SerializeField] private GameObject mSettingsCanvas;
-    [SerializeField] private GameObject mControlsCanvas;
+    [SerializeField] private GameObject mSettingsPanel;
+    [SerializeField] private GameObject mControlsPanel;
     private void Awake()
     {
         mStartButton.onClick.AddListener(() => StartButton());
@@ -21,8 +22,8 @@ public class SUIManager : MonoBehaviour
     private void Start()
     {
         mTweeningButtons = FindObjectsByType<Button>(FindObjectsSortMode.None);
-        mSettingsCanvas.SetActive(false);
-        mControlsCanvas.SetActive(false);
+        mSettingsPanel.SetActive(false);
+        mControlsPanel.SetActive(false);
         SetupButtons();
     }
     #region ButtonTweening
@@ -57,7 +58,7 @@ public class SUIManager : MonoBehaviour
     private void StartButton()
     {
         Debug.Log("Starting the game");
-        //TODO: Setup next scene
+        SceneManager.LoadScene(1);
     }
     private void QuitButton()
     {
