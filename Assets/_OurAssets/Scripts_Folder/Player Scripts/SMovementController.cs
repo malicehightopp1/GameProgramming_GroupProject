@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class mMovementController : MonoBehaviour
+public class SMovementController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private Vector3 mMoveSpeed;
@@ -16,6 +16,11 @@ public class mMovementController : MonoBehaviour
     private Vector3 mMoveDir;
 
     private CharacterController mCharacterController;
+
+    [Header("Gravity")]
+    [SerializeField] private float mMaxFallSpeed;
+    [SerializeField] float mAirCheckRadius = 0.5f;
+    [SerializeField] LayerMask mAirCheckLayerMask = 1;
 
     private void Start()
     {
@@ -31,6 +36,7 @@ public class mMovementController : MonoBehaviour
     {
         MovePlayer();
         UpdateTransform();
+        UpdateGravity();
     }
 
     private void MovePlayer()
@@ -59,10 +65,44 @@ public class mMovementController : MonoBehaviour
     {
         mCharacterController.Move((mMoveSpeed) * Time.deltaTime);
 
-        if (mMoveSpeed.sqrMagnitude > 0)
+        //if (mMoveSpeed.sqrMagnitude > 0)
+        //{
+        //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(mMoveSpeed.normalized, Vector3.up), Time.deltaTime * TurnLerpRate);
+        //}
+    }
+
+    private void UpdateGravity()
+    {
+        if (mCharacterController.isGrounded)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(mMoveSpeed.normalized, Vector3.up), Time.deltaTime * TurnLerpRate);
+            mMoveSpeed.y = -1f;
+            return;
         }
+
+        //Free Falling
+        if (mMoveSpeed.y > -mMaxFallSpeed)
+        {
+            mMoveSpeed.y += Physics.gravity.y * Time.deltaTime;
+        }
+    }
+
+    bool IsInAir()
+    {
+        if (mCharacterController.isGrounded)
+        {
+            return false;
+        }
+
+        Collider[] airCheckColliders = Physics.OverlapSphere(transform.position, mAirCheckRadius, mAirCheckLayerMask);
+
+        foreach (Collider collider in airCheckColliders)
+        {
+            if (collider.gameObject != gameObject)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
