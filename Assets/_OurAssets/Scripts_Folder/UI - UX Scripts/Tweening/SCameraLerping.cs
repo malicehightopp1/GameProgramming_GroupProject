@@ -41,7 +41,7 @@ public class SCameraLerping : MonoBehaviour
     }
     private IEnumerator LerpCamera()
     {
-        Quaternion cameraOriginRotation = Quaternion.Euler(0, 0, 0);
+        Quaternion cameraOriginRotation = Quaternion.Euler(14.478f, -34.512f, 0);
         Quaternion camerNewRotation = Quaternion.Euler(61.553f, 0, 0);
 
         float speed = 0;
