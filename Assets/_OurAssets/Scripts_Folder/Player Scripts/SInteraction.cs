@@ -8,8 +8,6 @@ public class SInteraction : MonoBehaviour
 
     public void InteractionSystem()
     {
-        //Debug Draw
-        Debug.DrawRay(mCamera.transform.position, mCamera.transform.forward * InteractRange, Color.blue);
 
         Ray ray = mCamera.ScreenPointToRay(mCamera.transform.forward);
 
@@ -23,5 +21,11 @@ public class SInteraction : MonoBehaviour
                 Debug.Log("Has Interactable");
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        //Debug Draw
+        Debug.DrawRay(mCamera.transform.position, mCamera.transform.forward * InteractRange, Color.blue);
     }
 }

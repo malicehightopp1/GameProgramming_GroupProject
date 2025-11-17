@@ -14,12 +14,8 @@ public class SFoodItem : MonoBehaviour, IInteractable
 
     public void OnInteract(SInteraction playerInteract)
     {
-        float distanceFromPlayer = Vector3.Distance(this.transform.position, playerInteract.transform.position);
-        if (distanceFromPlayer <= mPickupDistance)
-        {
-            Debug.Log("Pickup Item!");
-            ItemGrab();
-        }
+        Debug.Log("Pickup Item!");
+        ItemGrab();
     }
 
     private void ItemGrab()
