@@ -3201,7 +3201,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mFoodItemData: {fileID: 11400000, guid: b20b9346ebc729443bfcb9da86a4f1e7, type: 2}
-  mPickupDistance: 1.5
   mInventory: {fileID: 0}
 --- !u!135 &1778814027
 SphereCollider:
@@ -3881,6 +3880,10 @@ PrefabInstance:
     - target: {fileID: 2663544439909914100, guid: 052b743e2d3948d4bac8fa7e65e48b73, type: 3}
       propertyPath: m_Name
       value: PlayerObjects_grp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2741674545376866709, guid: 052b743e2d3948d4bac8fa7e65e48b73, type: 3}
+      propertyPath: InteractRange
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6595456956530539223, guid: 052b743e2d3948d4bac8fa7e65e48b73, type: 3}
       propertyPath: m_LocalPosition.z

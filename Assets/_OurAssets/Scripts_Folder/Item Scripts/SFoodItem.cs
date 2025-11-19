@@ -3,7 +3,6 @@ using UnityEngine;
 public class SFoodItem : MonoBehaviour, IInteractable
 {
     [SerializeField] private SFoodItemProfile mFoodItemData;
-    [SerializeField] private float mPickupDistance;
 
     [SerializeField] private SInventory mInventory;
 
@@ -25,11 +24,5 @@ public class SFoodItem : MonoBehaviour, IInteractable
             mInventory.AddFoodToList(mFoodItemData);
         }
         Destroy(this.gameObject);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, mPickupDistance);
     }
 }

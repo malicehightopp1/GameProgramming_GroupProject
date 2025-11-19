@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beddb664c2880d942bf5a0707ba984c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractRange: 2
+  InteractRange: 1.5
   mCamera: {fileID: 0}
 --- !u!1 &4192533154386108134
 GameObject:
