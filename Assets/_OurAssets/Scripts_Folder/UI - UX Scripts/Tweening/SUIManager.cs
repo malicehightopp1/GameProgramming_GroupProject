@@ -1,36 +1,26 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class SUIManager : MonoBehaviour
 {
     [Header("UI Buttons References")]
     private Button[] mTweeningButtons;
-    [SerializeField] private Button mQuitButton;
-    [SerializeField] private Button mStartButton;
-
-    //[SerializeField] private GameObject mMainCanvas;
-    [SerializeField] private GameObject mSettingsPanel;
-    [SerializeField] private GameObject mControlsPanel;
-    private void Awake()
-    {
-        mStartButton.onClick.AddListener(() => StartButton());
-        mQuitButton.onClick.AddListener(() => QuitButton());
-    }
     private void Start()
     {
-        mTweeningButtons = FindObjectsByType<Button>(FindObjectsSortMode.None);
-        mSettingsPanel.SetActive(false);
-        mControlsPanel.SetActive(false);
+        mTweeningButtons = FindObjectsByType<Button>(FindObjectsSortMode.None); //finding all buttons in scene
         SetupButtons();
+        if(mTweeningButtons.Length == 0)
+        {
+            Debug.Log("No buttons in the list");
+        }
     }
     #region ButtonTweening
     private void SetupButtons() //setting up and adding listeners to all buttons in scene
     {
+        Debug.Log("This is being called outside the foreach loop so no listeners are being added");
         foreach (Button buttons in mTweeningButtons)
         {
+            Debug.Log("Add listeners are being added");
             buttons.onClick.AddListener(() => StartCoroutine(TweeningButton(buttons, new Vector3(0.9f, 0.9f, 0.9f), 0.1f)));
         } 
     }
@@ -55,14 +45,4 @@ public class SUIManager : MonoBehaviour
         button.interactable = true;
     }
     #endregion
-    private void StartButton()
-    {
-        Debug.Log("Starting the game");
-        SceneManager.LoadScene(1);
-    }
-    private void QuitButton()
-    {
-        Debug.Log("Quit button is working");
-        Application.Quit();
-    }
 }
