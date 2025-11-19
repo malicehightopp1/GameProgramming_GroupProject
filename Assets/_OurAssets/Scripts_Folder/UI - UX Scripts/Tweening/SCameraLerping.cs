@@ -6,51 +6,70 @@ using UnityEngine.InputSystem;
 public class SCameraLerping : MonoBehaviour
 {
     private Menu_Inputs mMenuInputs;
-    private bool mTriggered = false;
-    private GameObject mTarget;
+    [SerializeField] private bool mTriggered = false;
+    private bool mReadyForInput = false;
+    [SerializeField] private GameObject mTarget;
 
     [SerializeField] private Transform StartPOS;
     [SerializeField] private Transform EndPOS;
     [SerializeField] private GameObject mStartCanvas;
+    public bool IsTriggered
+    {
+        get { return mTriggered; }
+        set { mTriggered = value; }
+    }
     private void Awake()
     {
+        mTriggered = false;
         mMenuInputs = new Menu_Inputs();
-        mMenuInputs.MainMenu.Start.performed += Lerp;
     }
     private void Start()
     {
+        mMenuInputs.MainMenu.Start.performed += Lerp;
         mTriggered = false;
-        mTarget = this.gameObject;
     }
     private void OnEnable()
     {
         mMenuInputs.Enable();
+        StartCoroutine(WaitForInputRelease());
     }
     private void OnDisable()
     {
         mMenuInputs.Disable();
     }
+    private IEnumerator WaitForInputRelease()
+    {
+        while (mMenuInputs.MainMenu.Start.IsPressed())
+            yield return null;
+        mReadyForInput = true; 
+    }
     private void Lerp(InputAction.CallbackContext context)
     {
-        if(mTriggered == false)
+        if (!mReadyForInput) return;
+
+        if(!mTriggered)
         {
-            mTriggered = true;
             StartCoroutine(LerpCamera());
             mStartCanvas.SetActive(false);
+            mTriggered = true;
         }
     }
     private IEnumerator LerpCamera()
     {
-        Quaternion cameraOriginRotation = Quaternion.Euler(14.478f, -34.512f, 0);
-        Quaternion camerNewRotation = Quaternion.Euler(61.553f, 0, 0);
+        Debug.Log("Lerping camera");
+        Quaternion cameraOriginRotation = mTarget.transform.rotation;
+        Quaternion camerNewRotation = StartPOS.transform.rotation;
+
+        Vector3 start = mTarget.transform.position;
+        Vector3 EndPOS = StartPOS.transform.position;
 
         float speed = 0;
         float duration = 1f;
         while (speed < 1)
         {
-            speed += Time.deltaTime / duration;
+            speed += Time.unscaledDeltaTime / duration;
             mTarget.transform.rotation = Quaternion.Lerp(cameraOriginRotation, camerNewRotation, speed);
-            mTarget.transform.position = Vector3.Lerp(EndPOS.position, StartPOS.position, speed);
+            mTarget.transform.position = Vector3.Lerp(start, EndPOS, speed);
             yield return null;
         }
     }
