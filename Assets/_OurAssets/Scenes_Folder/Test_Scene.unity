@@ -3201,7 +3201,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mFoodItemData: {fileID: 11400000, guid: b20b9346ebc729443bfcb9da86a4f1e7, type: 2}
-  mPickupDistance: 1.5
   mInventory: {fileID: 0}
 --- !u!135 &1778814027
 SphereCollider:

@@ -3,7 +3,6 @@ using UnityEngine;
 public class SFoodItem : MonoBehaviour, IInteractable
 {
     [SerializeField] private SFoodItemProfile mFoodItemData;
-    [SerializeField] private float mPickupDistance;
 
     [SerializeField] private SInventory mInventory;
 
@@ -14,12 +13,8 @@ public class SFoodItem : MonoBehaviour, IInteractable
 
     public void OnInteract(SInteraction playerInteract)
     {
-        float distanceFromPlayer = Vector3.Distance(this.transform.position, playerInteract.transform.position);
-        if (distanceFromPlayer <= mPickupDistance)
-        {
-            Debug.Log("Pickup Item!");
-            ItemGrab();
-        }
+        Debug.Log("Pickup Item!");
+        ItemGrab();
     }
 
     private void ItemGrab()
@@ -29,11 +24,5 @@ public class SFoodItem : MonoBehaviour, IInteractable
             mInventory.AddFoodToList(mFoodItemData);
         }
         Destroy(this.gameObject);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, mPickupDistance);
     }
 }
