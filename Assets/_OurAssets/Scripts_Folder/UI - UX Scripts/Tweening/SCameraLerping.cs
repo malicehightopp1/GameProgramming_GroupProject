@@ -18,7 +18,7 @@ public class SCameraLerping : MonoBehaviour
         get { return mTriggered; }
         set { mTriggered = value; }
     }
-    private void Awake()
+    private void Awake() 
     {
         mTriggered = false;
         mMenuInputs = new Menu_Inputs();
@@ -56,7 +56,6 @@ public class SCameraLerping : MonoBehaviour
     }
     private IEnumerator LerpCamera()
     {
-        Debug.Log("Lerping camera");
         Quaternion cameraOriginRotation = mTarget.transform.rotation;
         Quaternion camerNewRotation = StartPOS.transform.rotation;
 

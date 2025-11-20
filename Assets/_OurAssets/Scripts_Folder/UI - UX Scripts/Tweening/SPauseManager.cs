@@ -46,14 +46,7 @@ public class SPauseManager : MonoBehaviour
     #region Input For Pause
     private void PauseGame(InputAction.CallbackContext context) //check if game is paused or not then going to either pause or resume the game
     {
-        if(IsPaused) //if game is paused unpause it
-        {
-            StartCoroutine(SetCameraLerpBack());
-        }
-        else //if game is not paused pause it
-        {
-            StartCoroutine(LerpCamera());
-        }
+        StartCoroutine(IsPaused ? SetCameraLerpBack() : LerpCamera());
     }
     private void OnEnable()
     {
@@ -136,7 +129,6 @@ public class SPauseManager : MonoBehaviour
     {
         mCameraController.lockRotation = true; //locking camera movement
         mCameraController.cameraSens = 0f; //locking the movement of camera
-
 
         //setting up vaiables for lerping
         Transform cam = mCameraController.transform; 
