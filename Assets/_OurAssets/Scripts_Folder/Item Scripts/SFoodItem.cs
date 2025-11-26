@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SFoodItem : MonoBehaviour, IInteractable
@@ -9,6 +10,7 @@ public class SFoodItem : MonoBehaviour, IInteractable
     private void Start()
     {
         mInventory = GameObject.FindGameObjectWithTag("GameController").GetComponent<SInventory>();
+        Instantiate(mFoodItemData.FoodItemPrefab, this.transform);
     }
 
     public void OnInteract(SInteraction playerInteract)
@@ -24,5 +26,11 @@ public class SFoodItem : MonoBehaviour, IInteractable
             mInventory.AddFoodToList(mFoodItemData);
         }
         Destroy(this.gameObject);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(transform.position + this.GetComponent<CapsuleCollider>().center, this.GetComponent<CapsuleCollider>().radius);
     }
 }

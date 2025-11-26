@@ -6,6 +6,7 @@ public class SFoodItemProfile : ScriptableObject
     public string FoodItemID;
     public string FoodItemName;
     public Sprite FoodItemIcon;
+    public GameObject FoodItemPrefab;
     public EFoodType FoodItemType;
 }
 
