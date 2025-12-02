@@ -7,7 +7,6 @@ public class SPlayer : MonoBehaviour
     //For Holding the dishes
     [SerializeField] private GameObject mHeldItem;
     [SerializeField] private Transform mHeldItemTransform;
-    [SerializeField] private Transform mHeldTransformPivot;
     [SerializeField] private Camera mHeldCamera;
 
     private void Start()
@@ -17,8 +16,7 @@ public class SPlayer : MonoBehaviour
 
     private void Update()
     {
-        //This is for the Held Item to follow
-        mHeldTransformPivot.rotation = mHeldCamera.transform.rotation;
+        mHeldItemTransform.position = mHeldItemTransform.position;
     }
     public void HoldItem(GameObject heldItem) 
     {
@@ -31,7 +29,7 @@ public class SPlayer : MonoBehaviour
 
     public void DropItem() 
     {
-        mHeldItem.GetComponent<SDishItem>().CallDropItem();
+        mHeldItem.GetComponent<SDishItem>().CallDropItem(this.transform);
         Destroy(mHeldItem);
         mHeldItem = null;
     }
