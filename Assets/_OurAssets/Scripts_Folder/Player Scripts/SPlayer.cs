@@ -29,8 +29,13 @@ public class SPlayer : MonoBehaviour
 
     public void DropItem() 
     {
-        mHeldItem.GetComponent<SDishItem>().CallDropItem(this.transform);
-        Destroy(mHeldItem);
+        SDishItem DishItem = mHeldItem.GetComponent<SDishItem>();
+        GameObject ItemDrop = Instantiate(DishItem.GiveDropItem().DishItemPrefab, mHeldItemTransform);
+        ItemDrop.transform.SetParent(null, true);
+        foreach (Transform child in mHeldItemTransform)
+        {
+            Destroy(child.gameObject);
+        }
         mHeldItem = null;
     }
 }

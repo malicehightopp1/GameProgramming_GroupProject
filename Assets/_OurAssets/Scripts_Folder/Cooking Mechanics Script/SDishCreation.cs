@@ -11,6 +11,8 @@ public class SDishCreation : MonoBehaviour, IInteractable
 
     private int mCorrectNumIngredients = 0;
 
+    private bool bHasProducedDish = false;
+
     public void CookDish()
     {
         mInventory = GameObject.FindGameObjectWithTag("GameController").GetComponent<SInventory>();
@@ -25,7 +27,11 @@ public class SDishCreation : MonoBehaviour, IInteractable
 
         if (mCorrectNumIngredients >= mDishProfile.IngredientsList.Count)
         {
-            Instantiate(mDishProfile.DishItemPrefab, mDishProducedLocation);
+            if (!bHasProducedDish)
+            {
+                Instantiate(mDishProfile.DishItemPrefab, mDishProducedLocation);
+                bHasProducedDish = true;
+            }
         }
     }
 
