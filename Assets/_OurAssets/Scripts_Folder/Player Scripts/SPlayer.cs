@@ -20,10 +20,17 @@ public class SPlayer : MonoBehaviour
     }
     public void HoldItem(GameObject heldItem) 
     {
-        mHeldItem = Instantiate(heldItem, mHeldItemTransform);
-        Rigidbody heldRigidbody = mHeldItem.GetComponent<Rigidbody>();
-        heldRigidbody.isKinematic = true;
-        heldRigidbody.useGravity = false;
+        if (mHeldItem == null)
+        {
+            mHeldItem = Instantiate(heldItem, mHeldItemTransform);
+            Rigidbody heldRigidbody = mHeldItem.GetComponent<Rigidbody>();
+            heldRigidbody.isKinematic = true;
+            heldRigidbody.useGravity = false;
+        }
+        else
+        {
+            return;
+        }
 
     }
 

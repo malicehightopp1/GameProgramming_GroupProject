@@ -19,7 +19,7 @@ public class SDishCreation : MonoBehaviour, IInteractable
 
         foreach (SFoodItemProfile ingredients in mDishProfile.IngredientsList)
         {
-            foreach (SFoodItemProfile inventoryIngredients in mInventory.FoodItemProfiles)
+            foreach (SFoodItemProfile inventoryIngredients in mInventory.IngredientItemProfile)
             {
                 mCorrectNumIngredients++;
             }
