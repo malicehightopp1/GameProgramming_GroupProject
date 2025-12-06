@@ -6,6 +6,7 @@ public class SParticleProducer : MonoBehaviour
 {
     [SerializeField] private float ParticleSpeed;
     [SerializeField] private Transform mParticleOrigin;
+    [SerializeField] Transform mContainer;
     [SerializeField] private GameObject mParticle;
 
     [SerializeField] private bool mIsActive;
@@ -19,7 +20,6 @@ public class SParticleProducer : MonoBehaviour
     void Start()
     {
         ConversionSpeed = ParticleSpeed;
-        mIsActive = true;
         StartCoroutine(GenerateParticle());
     }
 
@@ -70,8 +70,13 @@ public class SParticleProducer : MonoBehaviour
 
     }
 
-    private void Toggle()
+    public void ToggleTrue()
     {
-        mIsActive = !mIsActive;
+        mIsActive = true;
+        StartCoroutine(GenerateParticle());
+    }
+    public void ToggleFalse()
+    {
+        mIsActive = false;
     }
 }

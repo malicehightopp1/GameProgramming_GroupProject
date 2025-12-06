@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d4dc4c433dca84eb2590933bf78671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ParticleSpeed: 0.05
+  ParticleSpeed: 0.2
   mParticleOrigin: {fileID: 7537629438923918778}
+  mContainer: {fileID: 0}
   mParticle: {fileID: 639143002179843059, guid: 9dc3056a9282725479aba5b961cd8f5e, type: 3}
   mIsActive: 0
   ConversionSpeed: 0
