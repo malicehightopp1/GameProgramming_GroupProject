@@ -8,9 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 506644097039282166, guid: 6f36337d71efd7c4b95341c22b719f7e, type: 3}
+      propertyPath: mLiquidIngredient
+      value: 
+      objectReference: {fileID: 11400000, guid: bb9e7357eed8e874abfea2417bcfb861, type: 2}
     - target: {fileID: 7773067277367830884, guid: 6f36337d71efd7c4b95341c22b719f7e, type: 3}
       propertyPath: m_Name
-      value: LiquidContainer
+      value: Milk
       objectReference: {fileID: 0}
     - target: {fileID: 9127502891153025055, guid: 6f36337d71efd7c4b95341c22b719f7e, type: 3}
       propertyPath: m_LocalPosition.x

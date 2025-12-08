@@ -15,7 +15,9 @@ public class SParticleProducer : MonoBehaviour
 
     [SerializeField] private Color mParticleColor;
 
-    
+    [SerializeField] SFoodItemProfile mLiquidIngredient;
+
+
 
     void Start()
     {
@@ -33,7 +35,9 @@ public class SParticleProducer : MonoBehaviour
         while (mIsActive)
         {
             GameObject Particle = Instantiate(mParticle, mParticleOrigin);
-            Particle.GetComponent<SParticle>().GetRotationTransform(this.transform);
+            SParticle ParticleScript = Particle.GetComponent<SParticle>();
+            ParticleScript.SetLiquidIngredient(mLiquidIngredient);
+            ParticleScript.GetRotationTransform(this.transform);
             Color color = new Vector4(mParticleColor.r, mParticleColor.g, mParticleColor.b, 255);
             Particle.GetComponentInChildren<SpriteRenderer>().color = color;
             yield return new WaitForSeconds(ParticleSpeed);

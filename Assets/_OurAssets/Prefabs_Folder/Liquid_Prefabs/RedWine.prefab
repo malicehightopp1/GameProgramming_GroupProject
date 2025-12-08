@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: mParticleColor.r
       value: 0.6603774
       objectReference: {fileID: 0}
+    - target: {fileID: 506644097039282166, guid: 6f36337d71efd7c4b95341c22b719f7e, type: 3}
+      propertyPath: mLiquidIngredient
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ea203fa12541d440843e2b33846d6e7, type: 2}
     - target: {fileID: 6436312503671060379, guid: 6f36337d71efd7c4b95341c22b719f7e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

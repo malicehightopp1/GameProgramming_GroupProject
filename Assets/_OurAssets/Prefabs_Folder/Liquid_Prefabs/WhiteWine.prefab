@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: mParticleColor.r
       value: 0.9635276
       objectReference: {fileID: 0}
+    - target: {fileID: 2654354833100147657, guid: 8d1a5c5e9f473884d85b2cdebbef58d0, type: 3}
+      propertyPath: mLiquidIngredient
+      value: 
+      objectReference: {fileID: 11400000, guid: f3411e8b69b01b44f9f7cfeb91f8ab76, type: 2}
     - target: {fileID: 5192267972976921947, guid: 8d1a5c5e9f473884d85b2cdebbef58d0, type: 3}
       propertyPath: m_Name
       value: WhiteWine
