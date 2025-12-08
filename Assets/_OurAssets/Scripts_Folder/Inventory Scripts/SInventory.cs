@@ -37,6 +37,17 @@ public class SInventory : MonoBehaviour
 
         if (ingredientProfile != null)
         {
+            SItemPanel itemPanel = GetItemPanelForIngredient(ingredientProfile);
+            if (itemPanel == null)
+            {
+                Debug.Log($"Found Existing Item not Found");
+                IngredientItemProfile.Add(ingredientProfile);
+                mSavedItemCount.Add(1);
+                UpdateInventoryUI(1);
+                UpdateCountList(1);
+                InventoryCurrentUniqueItemAmount++;
+            }
+
             Debug.Log($"IngredientProfile is not NULL");
             Transform allChildren = UIInventoryPanelItems.GetComponent<Transform>();
             foreach (Transform child in allChildren)
@@ -49,7 +60,7 @@ public class SInventory : MonoBehaviour
                     if (childPanel.HeldIngredient == ingredientProfile)
                     {
                         Debug.Log($"Found Existing Item");
-                        UpdateInventoryUI();
+                        UpdateInventoryUI(1);
                         UpdateCountList(1);
                         return true;
                     }
@@ -59,8 +70,8 @@ public class SInventory : MonoBehaviour
                     Debug.Log($"Found Existing Item not Found");
                     IngredientItemProfile.Add(ingredientProfile);
                     mSavedItemCount.Add(1);
-                    UpdateInventoryUI();
-                    UpdateCountList(0);
+                    UpdateInventoryUI(1);
+                    UpdateCountList(1);
                     InventoryCurrentUniqueItemAmount++;
                     return true;
                 }
@@ -88,7 +99,7 @@ public class SInventory : MonoBehaviour
                     {
                         IngredientItemProfile.Remove(ingredientProfile);
                     }
-                    UpdateInventoryUI();
+                    UpdateInventoryUI(-1);
                     UpdateCountList(-1);
                     return true;
                 }
@@ -97,6 +108,20 @@ public class SInventory : MonoBehaviour
         return false;
     }
 
+
+    private SItemPanel GetItemPanelForIngredient(SFoodItemProfile ingredientProfile)
+    {
+        Transform allChildren = UIInventoryPanelItems.GetComponent<Transform>();
+        foreach (Transform child in allChildren)
+        {
+            SItemPanel childPanel = child.GetComponent<SItemPanel>();
+            if (childPanel.HeldIngredient == ingredientProfile)
+            {
+                return childPanel;
+            }
+        }
+        return null;
+    }
     public void UpdateCountList(int itemCount)
     {
         for (int i = 0; i <= mSavedItemCount.Count; i++)
@@ -108,15 +133,15 @@ public class SInventory : MonoBehaviour
             }
         }
     }
-    public void UpdateInventoryUI()
+    public void UpdateInventoryUI(int count)
     {
-        Transform allChildren = UIInventoryPanelItems.GetComponent<Transform>();
-        foreach (Transform child in allChildren)
-        {
-            Destroy(child.gameObject);
-            Debug.Log(child.name);
-            Debug.Log("All Items Deleted.");
-        }
+        //Transform allChildren = UIInventoryPanelItems.GetComponent<Transform>();
+        //foreach (Transform child in allChildren)
+        //{
+        //    Destroy(child.gameObject);
+        //    Debug.Log(child.name);
+        //    Debug.Log("All Items Deleted.");
+        //}
 
         foreach (var item in IngredientItemProfile)
         {
@@ -126,6 +151,7 @@ public class SInventory : MonoBehaviour
             SItemPanel itemPanelScript = itemObject.GetComponent<SItemPanel>();
             itemPanelScript.SetHeldIngredient(item);
             Debug.Log($"Updating Count");
+            itemPanelScript.UpdateCount(count);
             //TODO: Add Item Count here
             Debug.Log("Item Generated.");
         }
