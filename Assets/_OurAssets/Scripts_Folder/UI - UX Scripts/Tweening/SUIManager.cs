@@ -31,7 +31,7 @@ public class SUIManager : MonoBehaviour
         float elapsed = 0;
         while (elapsed < duration) //lerping local scale to give smooth feeling
         {
-            button.interactable = false;
+            //button.interactable = false;
             elapsed += Time.deltaTime;
             button.transform.localScale = Vector3.Lerp(startscale, targetScale, elapsed / duration);
             yield return null;

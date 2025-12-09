@@ -2378,6 +2378,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5485258458253951070, guid: 052b743e2d3948d4bac8fa7e65e48b73, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5485258458253951070, guid: 052b743e2d3948d4bac8fa7e65e48b73, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 427249206}
@@ -6663,7 +6667,6 @@ GameObject:
   - component: {fileID: 1494563322}
   - component: {fileID: 1494563321}
   - component: {fileID: 1494563320}
-  - component: {fileID: 1494563319}
   m_Layer: 0
   m_Name: ScriptHolder
   m_TagString: GameController
@@ -6671,18 +6674,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1494563319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494563318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a3fd77198f88b7409fa1f56dcf6a47f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1494563320
 MonoBehaviour:
   m_ObjectHideFlags: 0
