@@ -20,10 +20,8 @@ public class SUIManager : MonoBehaviour
     #region ButtonTweening
     private void SetupButtons() //setting up and adding listeners to all buttons in scene
     {
-        Debug.Log("This is being called outside the foreach loop so no listeners are being added");
         foreach (Button buttons in mTweeningButtons)
         {
-            Debug.Log("Add listeners are being added");
             buttons.onClick.AddListener(() => StartCoroutine(TweeningButton(buttons, new Vector3(0.9f, 0.9f, 0.9f), 0.1f)));
         } 
     }

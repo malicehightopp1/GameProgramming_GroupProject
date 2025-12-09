@@ -83,6 +83,7 @@ public class SPauseManager : MonoBehaviour
     private void MainMenu() //function to going to mainmenu
     {
         Debug.Log("Loading main menu");
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(0);
     }
     private void Quit() //function for quitting game
