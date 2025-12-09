@@ -22,6 +22,13 @@ public class SMovementController : MonoBehaviour
     [SerializeField] float mAirCheckRadius = 0.5f;
     [SerializeField] LayerMask mAirCheckLayerMask = 1;
 
+    private bool mCanMove = true;
+
+    public bool CanMove
+    {
+        get { return mCanMove; } 
+        set { mCanMove = value; }
+    }
     private void Start()
     {
         mCharacterController = GetComponent<CharacterController>();
@@ -41,22 +48,25 @@ public class SMovementController : MonoBehaviour
 
     private void MovePlayer()
     {
-        //Calculate Movement Direction
-        mMoveDir = mPlayerOrientation.forward * mMovementInput.y + mPlayerOrientation.right * mMovementInput.x;
+        if(mCanMove == true)
+        {
+            //Calculate Movement Direction
+            mMoveDir = mPlayerOrientation.forward * mMovementInput.y + mPlayerOrientation.right * mMovementInput.x;
 
-        if (mMoveDir.sqrMagnitude > 0)
-        {
-            mMoveSpeed += (mMoveDir * mMoveAccel * Time.deltaTime);
-            mMoveSpeed = Vector3.ClampMagnitude(mMoveSpeed, mMaxMoveSpeed);
-        }
-        else
-        {
-            if (mMoveSpeed.sqrMagnitude > 0)
+            if (mMoveDir.sqrMagnitude > 0)
             {
-                mMoveSpeed -= mMoveSpeed.normalized * mMoveAccel * Time.deltaTime;
-                if (mMoveSpeed.sqrMagnitude < 0.1f)
+                mMoveSpeed += (mMoveDir * mMoveAccel * Time.deltaTime);
+                mMoveSpeed = Vector3.ClampMagnitude(mMoveSpeed, mMaxMoveSpeed);
+            }
+            else
+            {
+                if (mMoveSpeed.sqrMagnitude > 0)
                 {
-                    mMoveSpeed = Vector3.zero;
+                    mMoveSpeed -= mMoveSpeed.normalized * mMoveAccel * Time.deltaTime;
+                    if (mMoveSpeed.sqrMagnitude < 0.1f)
+                    {
+                        mMoveSpeed = Vector3.zero;
+                    }
                 }
             }
         }
@@ -85,7 +95,6 @@ public class SMovementController : MonoBehaviour
             mMoveSpeed.y += Physics.gravity.y * Time.deltaTime;
         }
     }
-
     bool IsInAir()
     {
         if (mCharacterController.isGrounded)

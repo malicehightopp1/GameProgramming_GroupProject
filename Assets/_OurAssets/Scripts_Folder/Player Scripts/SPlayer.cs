@@ -9,12 +9,10 @@ public class SPlayer : MonoBehaviour
     [SerializeField] private Transform mHeldItemTransform;
     [SerializeField] private Transform mHeldTransformPivot;
     [SerializeField] private Camera mHeldCamera;
-
     private void Start()
     {
         mHeldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
-
     private void Update()
     {
         //This is for the Held Item to follow
@@ -26,9 +24,7 @@ public class SPlayer : MonoBehaviour
         Rigidbody heldRigidbody = mHeldItem.GetComponent<Rigidbody>();
         heldRigidbody.isKinematic = true;
         heldRigidbody.useGravity = false;
-
     }
-
     public void DropItem() 
     {
         mHeldItem.GetComponent<SDishItem>().CallDropItem();

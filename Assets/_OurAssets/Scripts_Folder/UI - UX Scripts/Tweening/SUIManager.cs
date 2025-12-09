@@ -5,9 +5,12 @@ public class SUIManager : MonoBehaviour
 {
     [Header("UI Buttons References")]
     private Button[] mTweeningButtons;
+    private void Awake()
+    {
+        mTweeningButtons = FindObjectsByType<Button>(FindObjectsSortMode.None); //finding all buttons in scene    
+    }
     private void Start()
     {
-        mTweeningButtons = FindObjectsByType<Button>(FindObjectsSortMode.None); //finding all buttons in scene
         SetupButtons();
         if(mTweeningButtons.Length == 0)
         {

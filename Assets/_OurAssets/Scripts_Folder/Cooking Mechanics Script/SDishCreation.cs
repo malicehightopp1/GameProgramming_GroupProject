@@ -22,13 +22,11 @@ public class SDishCreation : MonoBehaviour, IInteractable
                 mCorrectNumIngredients++;
             }
         }
-
         if (mCorrectNumIngredients >= mDishProfile.IngredientsList.Count)
         {
             Instantiate(mDishProfile.DishItemPrefab, mDishProducedLocation);
         }
     }
-
     public void OnInteract(SInteraction playerInteract)
     {
         CookDish();
