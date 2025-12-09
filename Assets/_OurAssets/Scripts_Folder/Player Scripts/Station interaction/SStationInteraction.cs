@@ -2,50 +2,89 @@ using System.Collections;
 using UnityEngine;
 public class SStationInteraction : MonoBehaviour, IInteractable
 {
-    [SerializeField] private GameObject mTarget;
-    [SerializeField] private Transform mStartPOS;
+    [SerializeField] private Transform mCameraTarget;
+    [SerializeField] private Transform mEndPos;
+    [SerializeField] private Transform mStartPos;
+    private float mOriginalSens;
 
-    [SerializeField] private SInteraction mInteraction;
-    [SerializeField] private SCameraController mCameraController;
-    [SerializeField] private SMovementController mMovementController;
-    public void OnInteract(SInteraction playerInteraction)
+    private Quaternion prePauseRotation; //for saving camera position before pausing
+
+    private bool mIsInteracted = false;
+    void IInteractable.OnInteract(SInteraction playerInteract)
     {
-        StartInteraction();
-    }
-    void StartInteraction()
-    {
-        if(mInteraction.mStartedInteraction == false)
+        if(!mIsInteracted)
         {
-            StartCoroutine(StationStartInteraction());
+            StartCoroutine(OnInteraction(playerInteract));
         }
         else
         {
-            Debug.Log("Already Interacting with Station");
+            StartCoroutine(OnInteractionEnd(playerInteract));
         }
     }
-    private IEnumerator StationStartInteraction()
+    private IEnumerator OnInteraction(SInteraction playerInteract)
     {
-        mMovementController.CanMove = false; //locking player movement
-        mCameraController.lockRotation = true; //locking camera movement
-        mCameraController.cameraSens = 0f; //locking movement of camera
+        playerInteract.mStartedInteraction = true;
+        mOriginalSens = playerInteract.mCameraController.cameraSens;
 
-        mInteraction.mStartedInteraction = true;
+        playerInteract.mMovementController.InputBlocked = true;
+        playerInteract.mCameraController.lockRotation = true;
+        Debug.Log($"{mOriginalSens}");
+        playerInteract.mCameraController.cameraSens = 0f;
 
-        Quaternion cameraOriginRotation = mTarget.transform.rotation;
-        Quaternion camerNewRotation = mStartPOS.transform.rotation;
+        yield return null;
 
-        Vector3 start = mTarget.transform.position;
-        Vector3 EndPOS = mStartPOS.transform.position;
+        Transform cam = playerInteract.mCameraController.transform;
+        prePauseRotation = cam.rotation; //saving the rotation before pausing   
 
-        float speed = 0;
+        Quaternion endRot = mEndPos.rotation;
+        Quaternion startRot = cam.rotation;
+
+        Vector3 startPos = mStartPos.position;
+        Vector3 endPos = mEndPos.position;
+
+        float t = 0;
         float duration = 1f;
-        while (speed < 1)
+        while (t < 1f)
         {
-            speed += Time.unscaledDeltaTime / duration;
-            mTarget.transform.rotation = Quaternion.Lerp(cameraOriginRotation, camerNewRotation, speed);
-            mTarget.transform.position = Vector3.Lerp(start, EndPOS, speed);
+            t += Time.deltaTime / duration;
+            mCameraTarget.position = Vector3.Lerp(startPos, endPos, t);
+            mCameraTarget.rotation = Quaternion.Slerp(startRot, endRot, t);
             yield return null;
         }
-        mInteraction.mStartedInteraction = false;
+        mIsInteracted = true;
+        playerInteract.mStartedInteraction = false;
+
+        Vector3 e = mCameraTarget.rotation.eulerAngles;
+        playerInteract.mCameraController.SetRotation(e.x, e.y);
+    }
+    private IEnumerator OnInteractionEnd(SInteraction playerInteract)
+    {
+        playerInteract.mStartedInteraction = true;
+        Transform cam = playerInteract.mCameraController.transform;
+
+        Quaternion endRot = cam.rotation;
+        Quaternion startRot = mEndPos.rotation;
+
+        Vector3 startPos = mEndPos.position;
+        Vector3 endPos = mStartPos.position;
+
+        float t = 0;
+        float duration = 1f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            mCameraTarget.position = Vector3.Lerp(startPos, endPos, t);
+            mCameraTarget.rotation = Quaternion.Slerp(startRot, endRot, t);
+            yield return null;
+        }
+        playerInteract.mCameraController.cameraSens = mOriginalSens;
+        playerInteract.mCameraController.lockRotation = false;
+
+        playerInteract.mMovementController.InputBlocked = false;
+        playerInteract.mStartedInteraction = false;
+        mIsInteracted = false;
+
+        Vector3 e = mCameraTarget.rotation.eulerAngles;
+        playerInteract.mCameraController.SetRotation(e.x, e.y);
     }
 }

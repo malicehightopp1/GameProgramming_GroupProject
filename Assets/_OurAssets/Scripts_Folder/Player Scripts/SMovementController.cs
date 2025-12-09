@@ -21,35 +21,49 @@ public class SMovementController : MonoBehaviour
     [SerializeField] private float mMaxFallSpeed;
     [SerializeField] float mAirCheckRadius = 0.5f;
     [SerializeField] LayerMask mAirCheckLayerMask = 1;
-
-    private bool mCanMove = true;
-
-    public bool CanMove
+    private bool mInputBlocked = false;
+    public bool InputBlocked
+    { 
+        get { return mInputBlocked; }
+        set { mInputBlocked = value; }
+    }
+    public float moveAccel 
+    { 
+        get { return mMoveAccel; } 
+        set { mMoveAccel = value; }
+    }
+    public float moveSpeed
     {
-        get { return mCanMove; } 
-        set { mCanMove = value; }
+        get { return mMaxMoveSpeed; }
+        set { mMaxMoveSpeed = value; }
     }
     private void Start()
     {
         mCharacterController = GetComponent<CharacterController>();
     }
-
     public void OnMove(InputAction.CallbackContext context)
     {
         mMovementInput = context.ReadValue<Vector2>();
     }
-
     private void Update()
     {
         MovePlayer();
         UpdateTransform();
         UpdateGravity();
     }
-
     private void MovePlayer()
     {
-        if(mCanMove == true)
+        if(mInputBlocked)
         {
+            mMoveDir = Vector3.zero;
+            mMoveSpeed = Vector3.zero;
+            mMoveAccel = 0;
+            return;
+        }
+        else
+        {
+            mMoveAccel = 15f;
+        }
             //Calculate Movement Direction
             mMoveDir = mPlayerOrientation.forward * mMovementInput.y + mPlayerOrientation.right * mMovementInput.x;
 
@@ -69,7 +83,6 @@ public class SMovementController : MonoBehaviour
                     }
                 }
             }
-        }
     }
     private void UpdateTransform()
     {
@@ -80,7 +93,6 @@ public class SMovementController : MonoBehaviour
         //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(mMoveSpeed.normalized, Vector3.up), Time.deltaTime * TurnLerpRate);
         //}
     }
-
     private void UpdateGravity()
     {
         if (mCharacterController.isGrounded)
@@ -113,5 +125,4 @@ public class SMovementController : MonoBehaviour
         }
         return true;
     }
-
 }

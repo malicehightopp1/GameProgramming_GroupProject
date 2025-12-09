@@ -5,6 +5,8 @@ public class SInteraction : MonoBehaviour
     [SerializeField] private float InteractRange;
     [SerializeField] private Camera mCamera;
     private bool mStarted = false;
+    public SCameraController mCameraController;
+    public SMovementController mMovementController;
     public bool mStartedInteraction
     {
         get { return mStarted; }
@@ -22,7 +24,7 @@ public class SInteraction : MonoBehaviour
             {
                 if(mStarted == false)
                 {
-                    item.OnInteract(this);
+                    item.OnInteract(this);   
                 }
             }
         }
