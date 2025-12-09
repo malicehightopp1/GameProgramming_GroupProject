@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SCursorManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler //managing cursor changes on UI hover
 {
@@ -13,9 +14,19 @@ public class SCursorManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void OnPointerEnter(PointerEventData eventData) //changing cursor when hovering over UI elements
     {
         Cursor.SetCursor(mPointerCursor, mHotSpot, CursorMode.Auto);
+        if(GetComponent<Button>())
+        {
+            Vector3 large = new Vector3(1.1f, 1.1f, 1.1f);
+            this.gameObject.transform.localScale = large;
+        }
     }
     public void OnPointerExit(PointerEventData eventData) //changing cursor back to default when not hovering over UI elements
     {
         Cursor.SetCursor(mDefaultCursor, mHotSpot, CursorMode.Auto);
+        if (GetComponent<Button>())
+        {
+            Vector3 small = new Vector3(1f, 1f, 1f);
+            this.gameObject.transform.localScale = small;
+        }
     }
 }

@@ -19,7 +19,6 @@ public class SInteraction : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, InteractRange))
         {
-            Debug.Log($"Item hit is: {hit.transform.name}");
             if (hit.transform.TryGetComponent<IInteractable>(out var item))
             {
                 if(mStarted == false)
