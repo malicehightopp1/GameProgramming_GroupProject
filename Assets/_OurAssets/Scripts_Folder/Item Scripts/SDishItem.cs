@@ -9,13 +9,9 @@ public class SDishItem : MonoBehaviour, IInteractable
         Destroy(this.gameObject);
     }
 
-    public void CallDropItem()
+    public SDishItemProfile GiveDropItem()
     {
-        ItemDrop();
-    }
-    private void ItemDrop()
-    {
-        Instantiate(this.gameObject);
+        return mDishItemProfile;
     }
     private void OnDrawGizmos()
     {

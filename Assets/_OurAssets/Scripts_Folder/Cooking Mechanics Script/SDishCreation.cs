@@ -11,20 +11,26 @@ public class SDishCreation : MonoBehaviour, IInteractable
 
     private int mCorrectNumIngredients = 0;
 
+    private bool bHasProducedDish = false;
+
     public void CookDish()
     {
         mInventory = GameObject.FindGameObjectWithTag("GameController").GetComponent<SInventory>();
 
         foreach (SFoodItemProfile ingredients in mDishProfile.IngredientsList)
         {
-            foreach (SFoodItemProfile inventoryIngredients in mInventory.FoodItemProfiles)
+            foreach (SFoodItemProfile inventoryIngredients in mInventory.IngredientItemProfile)
             {
                 mCorrectNumIngredients++;
             }
         }
         if (mCorrectNumIngredients >= mDishProfile.IngredientsList.Count)
         {
-            Instantiate(mDishProfile.DishItemPrefab, mDishProducedLocation);
+            if (!bHasProducedDish)
+            {
+                Instantiate(mDishProfile.DishItemPrefab, mDishProducedLocation);
+                bHasProducedDish = true;
+            }
         }
     }
     public void OnInteract(SInteraction playerInteract)
