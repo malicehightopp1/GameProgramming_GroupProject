@@ -1,16 +1,17 @@
 using UnityEngine;
-using UnityEngine.Rendering.HighDefinition;
 
 public class SInteraction : MonoBehaviour
 {
     [SerializeField] private float InteractRange;
     [SerializeField] private Camera mCamera;
-
+    private bool mStarted = false;
+    public bool mStartedInteraction
+    {
+        get { return mStarted; }
+        set { mStarted = value; }
+    }
     public void InteractionSystem()
     {
-
-        //Ray ray = mCamera.ScreenPointToRay(mCamera.transform.forward * InteractRange);
-
         Ray ray = new Ray(mCamera.transform.position, mCamera.transform.forward * InteractRange);
 
         RaycastHit hit;
@@ -19,12 +20,13 @@ public class SInteraction : MonoBehaviour
             Debug.Log($"Item hit is: {hit.transform.name}");
             if (hit.transform.TryGetComponent<IInteractable>(out var item))
             {
-                item.OnInteract(this);
-                Debug.Log("Has Interactable");
+                if(mStarted == false)
+                {
+                    item.OnInteract(this);
+                }
             }
         }
     }
-
     private void OnDrawGizmos()
     {
         //Debug Draw

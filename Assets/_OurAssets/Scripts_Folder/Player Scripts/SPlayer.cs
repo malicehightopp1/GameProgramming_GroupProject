@@ -8,12 +8,10 @@ public class SPlayer : MonoBehaviour
     [SerializeField] private GameObject mHeldItem;
     [SerializeField] private Transform mHeldItemTransform;
     [SerializeField] private Camera mHeldCamera;
-
     private void Start()
     {
         mHeldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
-
     private void Update()
     {
         mHeldItemTransform.position = mHeldItemTransform.position;
@@ -33,7 +31,6 @@ public class SPlayer : MonoBehaviour
         }
 
     }
-
     public void DropItem() 
     {
         SDishItem DishItem = mHeldItem.GetComponent<SDishItem>();

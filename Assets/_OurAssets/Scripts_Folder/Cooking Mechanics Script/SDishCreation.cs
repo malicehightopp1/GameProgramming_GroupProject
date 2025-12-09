@@ -24,7 +24,6 @@ public class SDishCreation : MonoBehaviour, IInteractable
                 mCorrectNumIngredients++;
             }
         }
-
         if (mCorrectNumIngredients >= mDishProfile.IngredientsList.Count)
         {
             if (!bHasProducedDish)
@@ -34,7 +33,6 @@ public class SDishCreation : MonoBehaviour, IInteractable
             }
         }
     }
-
     public void OnInteract(SInteraction playerInteract)
     {
         CookDish();
