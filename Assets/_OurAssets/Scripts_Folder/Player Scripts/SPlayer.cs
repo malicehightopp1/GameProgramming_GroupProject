@@ -7,7 +7,6 @@ public class SPlayer : MonoBehaviour
     //For Holding the dishes
     [SerializeField] private GameObject mHeldItem;
     [SerializeField] private Transform mHeldItemTransform;
-    [SerializeField] private Transform mHeldTransformPivot;
     [SerializeField] private Camera mHeldCamera;
 
     private void Start()
@@ -17,22 +16,33 @@ public class SPlayer : MonoBehaviour
 
     private void Update()
     {
-        //This is for the Held Item to follow
-        mHeldTransformPivot.rotation = mHeldCamera.transform.rotation;
+        mHeldItemTransform.position = mHeldItemTransform.position;
     }
     public void HoldItem(GameObject heldItem) 
     {
-        mHeldItem = Instantiate(heldItem, mHeldItemTransform);
-        Rigidbody heldRigidbody = mHeldItem.GetComponent<Rigidbody>();
-        heldRigidbody.isKinematic = true;
-        heldRigidbody.useGravity = false;
+        if (mHeldItem == null)
+        {
+            mHeldItem = Instantiate(heldItem, mHeldItemTransform);
+            Rigidbody heldRigidbody = mHeldItem.GetComponent<Rigidbody>();
+            heldRigidbody.isKinematic = true;
+            heldRigidbody.useGravity = false;
+        }
+        else
+        {
+            return;
+        }
 
     }
 
     public void DropItem() 
     {
-        mHeldItem.GetComponent<SDishItem>().CallDropItem();
-        Destroy(mHeldItem);
+        SDishItem DishItem = mHeldItem.GetComponent<SDishItem>();
+        GameObject ItemDrop = Instantiate(DishItem.GiveDropItem().DishItemPrefab, mHeldItemTransform);
+        ItemDrop.transform.SetParent(null, true);
+        foreach (Transform child in mHeldItemTransform)
+        {
+            Destroy(child.gameObject);
+        }
         mHeldItem = null;
     }
 }

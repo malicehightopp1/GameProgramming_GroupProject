@@ -7,6 +7,8 @@ public class SFoodItem : MonoBehaviour, IInteractable
 
     [SerializeField] private SInventory mInventory;
 
+    [SerializeField] private bool bHasGivenItem = false;
+
     private void Start()
     {
         mInventory = GameObject.FindGameObjectWithTag("GameController").GetComponent<SInventory>();
@@ -15,15 +17,19 @@ public class SFoodItem : MonoBehaviour, IInteractable
 
     public void OnInteract(SInteraction playerInteract)
     {
-        Debug.Log("Pickup Item!");
-        ItemGrab();
+        if (bHasGivenItem == false)
+        {
+            bHasGivenItem = true;
+            Debug.Log("Pickup Item!");
+            ItemGrab();
+        }
     }
 
     private void ItemGrab()
     {
         if (mFoodItemData != null)
         {
-            mInventory.AddFoodToList(mFoodItemData);
+            mInventory.AddIngredientToList(mFoodItemData);
         }
         Destroy(this.gameObject);
     }
