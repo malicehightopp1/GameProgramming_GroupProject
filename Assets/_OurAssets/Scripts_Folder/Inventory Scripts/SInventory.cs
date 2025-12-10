@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +9,6 @@ public class SInventory : MonoBehaviour
 {
     public int InventoryMaxUniqueItemAmount = 28;
     public int InventoryCurrentUniqueItemAmount = 0;
-
-    [SerializeField] private List<int> mSavedItemCount = new List<int>();
 
     public int TotalMaxItemCount = 16;
 
@@ -40,12 +40,12 @@ public class SInventory : MonoBehaviour
             SItemPanel itemPanel = GetItemPanelForIngredient(ingredientProfile);
             if (itemPanel == null)
             {
-                Debug.Log($"Found Existing Item not Found");
+                Debug.Log($"Existing Item not Found");
                 IngredientItemProfile.Add(ingredientProfile);
-                mSavedItemCount.Add(1);
-                UpdateInventoryUI(1);
-                UpdateCountList(1);
+                UpdateInventoryUI(1, null);
+                Destroy(ingredientProfile.GameObject());
                 InventoryCurrentUniqueItemAmount++;
+                return true;
             }
 
             Debug.Log($"IngredientProfile is not NULL");
@@ -60,19 +60,18 @@ public class SInventory : MonoBehaviour
                     if (childPanel.HeldIngredient == ingredientProfile)
                     {
                         Debug.Log($"Found Existing Item");
-                        UpdateInventoryUI(1);
-                        UpdateCountList(1);
+                        UpdateInventoryUI(1, childPanel);
+                        Destroy(ingredientProfile.GameObject());
                         return true;
                     }
                 }
-                else
+                else if (childPanel.HeldIngredient != ingredientProfile)
                 {
-                    Debug.Log($"Found Existing Item not Found");
+                    Debug.Log($"Existing Item not Found");
                     IngredientItemProfile.Add(ingredientProfile);
-                    mSavedItemCount.Add(1);
-                    UpdateInventoryUI(1);
-                    UpdateCountList(1);
+                    UpdateInventoryUI(1, null);
                     InventoryCurrentUniqueItemAmount++;
+                    Destroy(ingredientProfile.GameObject());
                     return true;
                 }
 
@@ -99,8 +98,7 @@ public class SInventory : MonoBehaviour
                     {
                         IngredientItemProfile.Remove(ingredientProfile);
                     }
-                    UpdateInventoryUI(-1);
-                    UpdateCountList(-1);
+                    UpdateInventoryUI(-1, childPanel);
                     return true;
                 }
             }
@@ -122,18 +120,7 @@ public class SInventory : MonoBehaviour
         }
         return null;
     }
-    public void UpdateCountList(int itemCount)
-    {
-        for (int i = 0; i <= mSavedItemCount.Count; i++)
-        {
-            Transform allChildren = UIInventoryPanelItems.GetComponent<Transform>();
-            foreach (Transform child in allChildren)
-            {
-                mSavedItemCount[i] = child.GetComponent<SItemPanel>().GiveCount() + itemCount;
-            }
-        }
-    }
-    public void UpdateInventoryUI(int count)
+    public void UpdateInventoryUI(int count, SItemPanel childPanel)
     {
         //Transform allChildren = UIInventoryPanelItems.GetComponent<Transform>();
         //foreach (Transform child in allChildren)
@@ -145,14 +132,24 @@ public class SInventory : MonoBehaviour
 
         foreach (var item in IngredientItemProfile)
         {
-            //TODO: Items Spawning with same Icon no matter what.
-            GameObject itemObject = Instantiate(UIItemImage, UIInventoryPanelItems.gameObject.transform, false);
-            itemObject.GetComponent<Image>().sprite = item.FoodItemIcon;
-            SItemPanel itemPanelScript = itemObject.GetComponent<SItemPanel>();
+            SItemPanel itemPanelScript;
+
+            if (childPanel == null)
+            {
+                //Create new Icon if Item is Unique
+                GameObject itemObject;
+                itemObject = Instantiate(UIItemImage, UIInventoryPanelItems.gameObject.transform, false);
+                itemObject.GetComponent<Image>().sprite = item.FoodItemIcon;
+                itemPanelScript = itemObject.GetComponent<SItemPanel>();
+            }
+            else
+            {
+                itemPanelScript = childPanel;
+            }
+            
             itemPanelScript.SetHeldIngredient(item);
             Debug.Log($"Updating Count");
             itemPanelScript.UpdateCount(count);
-            //TODO: Add Item Count here
             Debug.Log("Item Generated.");
         }
     }
