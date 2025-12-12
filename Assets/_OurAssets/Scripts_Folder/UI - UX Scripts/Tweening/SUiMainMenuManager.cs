@@ -9,6 +9,7 @@ public class SUiMainMenuManager : MonoBehaviour
 
     [SerializeField] private GameObject mSettingsPanel;
     [SerializeField] private GameObject mControlsPanel;
+    [SerializeField] private GameObject mCreditsPanel;
     private void Awake() //adding listeners to buttons
     {
         mStartButton.onClick.AddListener(() => StartButton());
@@ -18,6 +19,7 @@ public class SUiMainMenuManager : MonoBehaviour
     {
         mSettingsPanel.SetActive(false);
         mControlsPanel.SetActive(false);
+        mCreditsPanel.SetActive(false);
     }
     private void StartButton() //loading the main game scene
     {
