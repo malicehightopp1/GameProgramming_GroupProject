@@ -56,6 +56,8 @@ public class SStationInteraction : MonoBehaviour, IInteractable
 
         Vector3 e = mCameraTarget.rotation.eulerAngles;
         playerInteract.mCameraController.SetRotation(e.x, e.y);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     private IEnumerator OnInteractionEnd(SInteraction playerInteract)
     {
@@ -84,6 +86,8 @@ public class SStationInteraction : MonoBehaviour, IInteractable
         playerInteract.mStartedInteraction = false;
         mIsInteracted = false;
 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         Vector3 e = mCameraTarget.rotation.eulerAngles;
         playerInteract.mCameraController.SetRotation(e.x, e.y);
     }

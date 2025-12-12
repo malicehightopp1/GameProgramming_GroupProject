@@ -24,6 +24,7 @@ public class SPauseManager : MonoBehaviour
     [SerializeField] private Transform mEndPOS;
     [SerializeField] private Transform mStartPOS;
     private Quaternion prePauseRotation; //for saving camera position before pausing
+    private float mOriginalSens;
 
     [Header("References")]
     [SerializeField] private SCameraController mCameraController;
@@ -114,6 +115,8 @@ public class SPauseManager : MonoBehaviour
         float duration = 0.5f;
 
         Pause(); //pausing game - this NEEDS to be here to avoid jittery camera
+
+        mOriginalSens = PlayerPrefs.GetFloat("CameraSensitivty");
         while (speed < 1) //smooth transition for lerping
         {
             speed += Time.unscaledDeltaTime / duration;
@@ -154,8 +157,9 @@ public class SPauseManager : MonoBehaviour
         Vector3 e = cam.rotation.eulerAngles;
         mCameraController.SetRotation(e.x, e.y);
 
+        mOriginalSens = PlayerPrefs.GetFloat("CameraSensitivty");
         //setting the camera back to normal
-        mCameraController.cameraSens = 2f;
+        mCameraController.cameraSens = mOriginalSens;
         mCameraController.lockRotation = false;
         Resume(); //starting resume function to unpause the game
     }
